@@ -408,12 +408,32 @@
     </div>
     
     <script>
-        document.getElementById('interviewForm').addEventListener('submit', function(e) {
-            // Formspree handles submission, this just provides UX feedback
-            setTimeout(function() {
-                document.getElementById('successMessage').style.display = 'block';
-            }, 1000);
-        });
+                document.getElementById('interviewForm').addEventListener('submit', function(e) {
+                                e.preventDefault();
+
+                                var form = e.target;
+                                var submitBtn = form.querySelector('.submit-btn');
+                                submitBtn.disabled = true;
+                                submitBtn.textContent = 'Submitting...';
+
+                                var formData = new FormData(form);
+
+                                fetch(form.action, {
+                                                    method: 'POST',
+                                                    mode: 'no-cors',
+                                                    body: formData
+                                })
+                                .then(function() {
+                                                    form.style.display = 'none';
+                                                    document.getElementById('successMessage').style.display = 'block';
+                                                    window.scrollTo(0, 0);
+                                })
+                                .catch(function() {
+                                                    submitBtn.disabled = false;
+                                                    submitBtn.textContent = 'Submit';
+                                                    alert('Something went wrong submitting your response. Please try again, or let Simon know if it keeps happening.');
+                                });
+                });
     </script>
 </body>
 </html>
