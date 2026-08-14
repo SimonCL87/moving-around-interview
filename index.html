@@ -424,9 +424,11 @@
                                                     body: formData
                                 })
                                 .then(function() {
-                                                    form.style.display = 'none';
-                                                    document.getElementById('successMessage').style.display = 'block';
-                                                    window.scrollTo(0, 0);
+                                                    var msg = document.getElementById('successMessage');
+                                    form.parentNode.insertBefore(msg, form);
+                                    form.style.display = 'none';
+                                    msg.style.display = 'block';
+                                    window.scrollTo(0, 0);
                                 })
                                 .catch(function() {
                                                     submitBtn.disabled = false;
